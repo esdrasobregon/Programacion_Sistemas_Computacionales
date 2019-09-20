@@ -1,0 +1,42 @@
+public Form1()
+        {
+            InitializeComponent();
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            if (Formulariolleno())
+            {
+                Empleado emp = new Empleado();
+                emp.setIdentificacion(Convert.ToInt32(this.txtidentificacion.Text));
+                emp.setNombre(this.txtnombre.Text);
+                emp.setApellido1(this.txtap1.Text);
+                emp.setApellido2(this.txtap2.Text);
+                emp.setfechanacimiento(this.dtpfechanacimiento.Value);
+                emp.Setidempleado(Convert.ToInt32(this.textidempleado.Text));
+                emp.Setactivo(this.cmbestado.SelectedIndex);
+                emp.setSalarioHora(Convert.ToDecimal(this.txtsalario.Text));
+                decimal salaroMensual = Convert.ToDecimal(this.txtsalario.Text) * 48 * 4;
+                MessageBox.Show("Su salario mensual será de: " + string.Concat(salaroMensual.ToString()));
+            }
+        }
+        private bool Formulariolleno()
+        {
+            bool result = true;
+            if ((string.IsNullOrEmpty(this.textidempleado.Text)) || (string.IsNullOrEmpty(this.txtnombre.Text)) || (string.IsNullOrEmpty(this.txtap1.Text)) || (string.IsNullOrEmpty(this.txtap2.Text)) || string.IsNullOrEmpty(this.txtsalario.Text) || string.IsNullOrEmpty(this.textidempleado.Text))
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+}
