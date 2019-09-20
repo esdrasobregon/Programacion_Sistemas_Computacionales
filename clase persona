@@ -1,0 +1,62 @@
+public class Persona
+    {
+        private string Nombre;
+        private string Apellido1;
+        private string Apellido2;
+        private int Identificacion;
+        private DateTime fechanacimiento;
+
+        public Persona() { }
+        public Persona(string Nombre, string Apellido1, string Apellido2, int Identificacion, DateTime p_fechanacimiento)
+        {
+            this.Nombre = Nombre.Trim(' ');
+            this.Apellido1 = Apellido1.Trim(' ');
+            this.Apellido2 = Apellido2.Trim(' ');
+            this.Identificacion = Identificacion;
+            this.fechanacimiento = p_fechanacimiento;
+        }
+
+        public string getNombre()
+        {
+            return this.Nombre;
+        }
+        public void setNombre(string nombre)
+        {
+            this.Nombre = nombre;
+        }
+
+        public string getApellido1()
+        {
+            return this.Apellido1;
+        }
+        public void setApellido1(string Apellido1)
+        {
+            this.Apellido1 = Apellido1;
+        }
+
+        public string getApellido2()
+        {
+            return this.Apellido2;
+        }
+        public void setApellido2(string Apellido2)
+        {
+            this.Apellido2 = Apellido2;
+        }
+
+        public int getIdentificacion()
+        {
+            return this.Identificacion;
+        }
+        public void setIdentificacion(int identificacion)
+        {
+            this.Identificacion = identificacion;
+        }
+
+        public DateTime getfechanacimiento()
+        {
+            return this.fechanacimiento;
+        }
+        public void setfechanacimiento(DateTime p_fechanacimiento)
+        {
+            this.fechanacimiento = p_fechanacimiento;
+        }
