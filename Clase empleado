@@ -1,0 +1,84 @@
+public class Empleado : Persona
+    {
+        private int idempleado;
+        private int activo;
+        private decimal salarioHora;
+        private int horasLaboradas;
+        private decimal salarioMensual;
+        public Empleado() { }
+        public Empleado(int p_idempleado, int p_activo, int p_horasLaboradas, int p_salarioHora)
+        {
+            this.idempleado = p_idempleado;
+            this.activo = p_activo;
+            this.salarioHora = p_salarioHora;
+            this.horasLaboradas = p_horasLaboradas;
+        }
+        public int Getidempleado()
+        {
+            return this.idempleado;
+        }
+        public void Setidempleado(int p_idempleado)
+        {
+            this.idempleado = p_idempleado;
+        }
+        public int Getactivo()
+        {
+            return this.activo;
+        }
+        public void Setactivo(int p_activo)
+        {
+            this.activo = p_activo;
+        }
+        public decimal getSalarioMensual()
+        {
+            return this.salarioMensual;
+        }
+        public void CalcularSalarioMensual()
+        {
+            this.salarioMensual = this.salarioHora * this.horasLaboradas;
+        }
+        public decimal getSalarioHora()
+        {
+            return this.salarioHora;
+        }
+        public void setSalarioHora(decimal p_salirioHora)
+        {
+            this.salarioHora = p_salirioHora;
+        }
+        //con el siguiente metodo se calcula el salario maximo entre los que se envien por parámetro
+        public decimal ObtnerSalarioMaximo(decimal [] p_salarios)
+        {
+            decimal result = 0;
+            if(p_salarios.Length > 1)
+            {
+                for(int i =0; i < p_salarios.Length; i += 2)
+                {
+                    decimal valor1 = p_salarios[i];
+                    decimal valor2 = p_salarios[i];
+                    if(Math.Max(valor1, valor2) > result)
+                    {
+                        result = Math.Max(valor1, valor2);
+                    }
+                }
+            }
+            return result;
+        }
+        //con el siguiente metodo se calcula el salario minimo entre los que se envien por parámetro
+        public decimal ObtnerSalarioMinimo(decimal[] p_salarios)
+        {
+            decimal result = 0;
+            if (p_salarios.Length > 1)
+            {
+                for (int i = 0; i < p_salarios.Length; i += 2)
+                {
+                    decimal valor1 = p_salarios[i];
+                    decimal valor2 = p_salarios[i];
+                    if (Math.Min(valor1, valor2) > result)
+                    {
+                        result = Math.Min(valor1, valor2);
+                    }
+                }
+            }
+            return result;
+        }
+    }
