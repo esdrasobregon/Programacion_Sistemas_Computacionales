@@ -1,0 +1,185 @@
+//esta clase se usa para estructurar la informacion que se genera
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Practica
+{
+    class Empleado
+    {
+        public int cedula { get; set; }
+        public string nombre { get; set; }
+        public double salario { get; set; }
+        public char tiponomina { get; set; }
+        public string sector { get; set; }
+    }
+}
+//en las siguiente clase se realizan 
+//las diferentes actividades conn la infromcion
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Practica
+{
+    public partial class Form1 : Form
+    {
+        List<Empleado> listaempleados;
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.listaempleados = new List<Empleado>();
+            string line;
+
+            // Read the file  
+            System.IO.StreamReader file =
+                new System.IO.StreamReader(@"C:\Users\esdra\OneDrive\Documentos\universidad\12 cua\programacion sc\materia\semana03\archivos\nomina.txt");
+            while ((line = file.ReadLine()) != null)
+            {
+                Empleado em = new Empleado();
+                em.cedula = Convert.ToInt32(line.Split(';')[0].ToString());
+                em.nombre = line.Split(';')[1].ToString();
+                em.salario = Convert.ToDouble(line.Split(';')[2].ToString());
+                em.tiponomina = Convert.ToChar(line.Split(';')[3].ToString());
+                em.sector = line.Split(';')[4].ToString();
+                this.listaempleados.Add(em);
+            }
+
+            file.Close();
+
+        }
+        //seccion de funciones de los controles del form
+        private void btnSumaSalarios_Click(object sender, EventArgs e)
+        {
+            this.textSumaSalarios.Text = Convert.ToString(GetSumaSalarios());
+        }
+
+        private void btnAgrupar_Click(object sender, EventArgs e)
+        {
+            Agrupar();
+        }
+
+        private void btnPromedio_Click(object sender, EventArgs e)
+        {
+            this.textPromedio.Text = GetPromedioSalariosEmpleadosTipoB().ToString();
+        }
+
+        private void btnNominaMayor_Click(object sender, EventArgs e)
+        {
+            this.textNominaMayor.Text = GetNominaMayor().ToString();
+        }
+        //seccion de los metodos para laa funciones de los controles
+        private double GetSumaSalarios()
+        {
+            double result =0;
+            IEnumerable<double> salarioQuery =
+                from empleado in this.listaempleados
+                where empleado.sector == "Alajuela"
+                select empleado.salario;
+            
+            foreach (double d in salarioQuery)
+            {
+                //MessageBox.Show("d: " + d);
+                result += d;
+            }
+            return result;
+        }
+
+        private void Agrupar()
+        {
+            this.richTextBox1.Text = "";
+
+            var salarioQuery =
+                from empleado in this.listaempleados
+                group empleado by empleado.sector[5]
+                into e
+                select e;
+            foreach (var em in salarioQuery)
+            {
+                //MessageBox.Show("d: " + d);
+                this.richTextBox1.Text += "sector"+"\n";
+                foreach(var e in em)
+                {
+                    this.richTextBox1.Text += e.cedula+", "+e.nombre +", "+e.salario+", "+e.tiponomina+", "+ e.sector +"\n";
+                }
+
+            }
+        }
+        private char GetNominaMayor()
+        {
+            List<int> listaTamanyoNomina = new List<int>();
+            List<char> listaIdentificador = new List<char>();
+            var salarioQuery =
+                from empleado in this.listaempleados
+                group empleado by empleado.tiponomina
+                into e
+                select e;
+            int index = 0;
+            foreach (var em in salarioQuery)
+            {
+                int counter = 0;
+                foreach (var e in em)
+                {
+                    counter++;
+                }
+                listaTamanyoNomina.Add(counter);
+                listaIdentificador.Add(em.ElementAt(index).tiponomina);
+                index++;
+            }
+            int numActual = listaTamanyoNomina.ElementAt(0);
+            char result = listaIdentificador.ElementAt(0);
+            for (int i = 1; i < listaTamanyoNomina.Count; i++)
+            {
+                if (numActual < listaTamanyoNomina.ElementAt(i))
+                {
+                    numActual = listaTamanyoNomina.ElementAt(i);
+                    result = listaIdentificador.ElementAt(i);
+                }
+            }
+            return result;
+        }
+        private IEnumerable GetListaAgrupada()
+        {
+            this.richTextBox1.Text = "";
+
+            var salarioQuery =
+                from empleado in this.listaempleados
+                group empleado by empleado.sector[5]
+                into e
+                select e;
+            return salarioQuery;
+        }
+        private double GetPromedioSalariosEmpleadosTipoB()
+        {
+            int counter = 0;
+            double totalSalaios = 0;
+            double resultado = 0;
+            IEnumerable<double> salarioQuery =
+                from empleado in this.listaempleados
+                where empleado.tiponomina =='B'
+                select empleado.salario;
+
+            foreach (double d in salarioQuery)
+            {
+                totalSalaios += d;
+                counter += 1;
+            }
+            resultado = totalSalaios / counter;
+            return resultado;
+        }
+    }
+}
+
